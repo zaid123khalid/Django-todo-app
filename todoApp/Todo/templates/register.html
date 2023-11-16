@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block body %}
+    
+    <div id="register-box">
+        <form method="post" id="register-form">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Register" id="register-btn">
+        </form>
+        <a href="/login"><button>Login</button></a>
+    </div>
+    
+    {% for message in messages %}
+        <p class="messages">{{message}}</p>
+    {% endfor %}
+    <script src="{% static 'js/msg_handler.js' %}">
+    </script>
+{% endblock %}

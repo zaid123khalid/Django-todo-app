@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    INDEX
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="sidenav">
+    <a href="login/">Login</a><br>
+    <a href="register/">Register</a>
+</div>
+
+<div class="main">
+  <h2>Task Planner</h2>
+  <p style="word-break: break-all;">A task planner app. This app lets you plan your tasks so that you can keep record of your tasks and work plan</p>
+ </div>
+{% endblock %}
+
+
+
+
