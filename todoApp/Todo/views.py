@@ -27,8 +27,8 @@ def login_user(request):
 
 @login_required
 def home(request):
-    tasks = Task.objects.filter(user=request.user)
-    return render(request, 'home.html', {'tasks': tasks })
+    tasks = Task.objects.filter(user=request.user, completed=False)
+    return render(request, 'home.html', {'tasks': tasks})
 
 @login_required
 def add_task(request):
@@ -38,7 +38,6 @@ def add_task(request):
         date = request.POST['date'] + " " + request.POST['time']
         current_user = request.user
         user = User.objects.filter(username=current_user).first()
-
         if user:
             task = Task(title=title, description= description, date_valide=date ,user=user)
             task.save()
@@ -53,17 +52,14 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-
 def register_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
-        
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
             return redirect('register')
-        
         user = User.objects.filter(username=username).first()
         if user:
             messages.error(request, 'Username already exists.')
@@ -78,15 +74,13 @@ def register_user(request):
 
 @login_required
 def update_data(request):
-    print(request.POST)
-    
     if request.method == 'POST':
-        print(request.POST['task_id'])
         id = request.POST['task_id']
         id = id.replace('task_', '')
         task = Task.objects.filter(id=id).first()
         if task:
-            task.delete()
+            task.completed = True
+            task.save()
             messages.success(request, 'Task completed successfully.')
             return redirect('home')
         else:
